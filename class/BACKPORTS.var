@@ -1,0 +1,2 @@
+# check if we use stable, no backports for testing
+bpo="/stretch-backports"

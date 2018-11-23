@@ -1,0 +1,33 @@
+#! /bin/bash
+
+if [ -n "$APTPROXY" ]; then
+    echo "Acquire::http::Proxy \"$APTPROXY\";" > $target/etc/apt/apt.conf.d/02proxy
+else
+    rm -f $target/etc/apt/apt.conf.d/02proxy
+fi
+
+echo force-unsafe-io > $target/etc/dpkg/dpkg.cfg.d/unsafe-io
+
+# you may want to add i386 arch to amd64 hosts
+# if ifclass AMD64; then
+#     $ROOTCMD dpkg --add-architecture i386
+# fi
+
+
+# do only execute during fai-diskimage
+if [ X$FAI_ACTION = Xinstall -a $do_init_tasks -eq 1 ]; then
+    exit 0
+fi
+
+if [ -n "$apt_cdn" -a -n "$release" ]; then
+cat <<EOF > $target/etc/apt/sources.list
+deb $apt_cdn/debian $release main contrib non-free
+deb $apt_cdn/debian-security $release/updates main contrib non-free
+deb [trusted=yes] http://fai-project.org/download $release koeln
+EOF
+fi
+
+ainsl /etc/apt/sources.list "$repo"
+if ifclass BACKPORTS; then
+    ainsl -v /etc/apt/sources.list "^deb $apt_cdn/debian $release-backports main contrib non-free"
+fi

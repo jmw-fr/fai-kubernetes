@@ -1,0 +1,79 @@
+set default="FAI.me installation"
+insmod keystatus
+set resolution=1024x768
+
+if loadfont /boot/grub/unicode.pf2 ; then
+   insmod png
+   set gfxmode=1024x768
+   insmod gfxterm
+   insmod vbe
+   terminal_output gfxterm
+fi
+
+set menu_color_normal=white/black
+set menu_color_highlight=black/yellow
+
+# make sure we can access partitions
+insmod part_msdos
+insmod part_gpt
+
+if [ ${iso_path} ] ; then
+    set loopback="findiso=${iso_path}"
+fi
+
+sleep 1
+if keystatus --shift; then
+    set timeout=20
+else
+    set timeout=0
+fi
+
+
+menuentry "        +------------------------------------------------------+" {
+    set gfxpayload=$resolution
+}
+
+menuentry "        |        Fully  Automatic  Installation                |" {
+    set gfxpayload=$resolution
+
+}
+menuentry "        |     _VERSIONSTRING_     |" --unrestricted {
+    set gfxpayload=$resolution
+
+}
+menuentry "        |        (c) Thomas Lange  lange@debian.org            |" {
+    set gfxpayload=$resolution
+}
+menuentry "        +------------------------------------------------------+" {
+    set gfxpayload=$resolution
+}
+
+menuentry "" {
+    set gfxpayload=$resolution
+}
+menuentry "FAI.me installation" {
+    set gfxpayload=$resolution
+    linux   /boot/vmlinuz FAI_FLAGS="menu,verbose,createvt" FAI_ACTION=install FAI_CONFIG_SRC=file:///var/lib/fai/config rd.live.image root=live:CDLABEL=FAI_CD rd.neednet quiet
+    initrd  /boot/initrd.img
+}
+
+menuentry "Boot OS from first partition on first disk" {
+    if [ -d (cd) ]; then
+       chainloader (hd0)+1
+    fi
+
+    if [ "$root" = "hd1" ]; then
+       chainloader (hd0)+1
+    fi
+
+    if [ "$root" = "hd0" ]; then
+       set root=(hd1)
+       chainloader (hd1)+1
+   fi
+}
+
+menuentry "Rescue system, no installation" {
+    set gfxpayload=$resolution
+    linux /boot/vmlinuz FAI_FLAGS="verbose,createvt" FAI_ACTION=sysinfo FAI_CONFIG_SRC=file:///var/lib/fai/config rd.live.image root=live:CDLABEL=FAI_CD quiet
+    initrd /boot/initrd.img
+}
