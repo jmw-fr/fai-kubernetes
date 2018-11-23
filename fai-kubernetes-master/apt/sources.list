@@ -5,3 +5,5 @@ deb http://deb.debian.org/debian-security stretch/updates main contrib non-free
 
 # repository that may contain newer fai packages for stretch
 deb [trusted=yes] http://fai-project.org/download stretch koeln
+
+deb [trusted=yes] https://apt.kubernetes.io/ kubernetes-xenial main

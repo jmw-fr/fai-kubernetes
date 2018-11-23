@@ -1,0 +1,5 @@
+PACKAGES install
+kubelet kubeadm kubectl
+
+PACKAGES hold
+kubelet kubeadm kubectl
