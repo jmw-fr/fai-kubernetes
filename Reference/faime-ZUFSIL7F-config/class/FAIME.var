@@ -1,0 +1,6 @@
+KEYMAP=fr
+TIMEZONE=UTC
+ROOTPW=''
+username=jmweeger
+USERPW='$6$YoehPznv.MecG09D$jqhMN4XutyVJzhBUyOA/WqDp8cI75yrft1mrEN5Q.FsFYyavb7GFralwORWiHtFt3TswU7WKF75bTo4xztaeU/'
+release=stretch

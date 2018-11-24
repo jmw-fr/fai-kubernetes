@@ -1,0 +1,7 @@
+PACKAGES install AMD64
+linux-image-amd64/$release-backports
+
+PACKAGES install NONFREE
+# you may want these non-free kernel drivers
+firmware-bnx2/$release-backports firmware-bnx2x/$release-backports firmware-realtek/$release-backports
+firmware-linux-nonfree/$release-backports

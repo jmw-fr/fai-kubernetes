@@ -1,0 +1,11 @@
+#! /bin/bash
+
+error=0; trap 'error=$(($?>$error?$?:$error))' ERR # save maximum error code
+
+if [ -f $FAI/files/root-ssh-key ]; then
+    mkdir -p $target/root/.ssh
+    install -vpm 0600 $FAI/files/root-ssh-key $target/root/.ssh/authorized_keys
+fi
+
+exit $error
+
