@@ -55,7 +55,7 @@ git clone https://github.com/jmw-fr/fai-kubernetes.git /srv/fai/config
 ### Création de l'ISO
 
 ``` bash
-fai-mirror -C /srv/fai/config/fai-kubernetes-master -m999 -cAMD64,DEBIAN,DHCPC,GRUB_PC,FAIBASE,STRETCH,ONE,SSH_SERVER,STANDARD,FRENCH,KUBEADM /tmp/mirror
+fai-mirror -C /srv/fai/config/fai-kubernetes-master -m999 -cAMD64,DEBIAN,DHCPC,GRUB_PC,FAIBASE,STRETCH,ONE,SSH_SERVER,STANDARD,FRENCH /tmp/mirror
 
 fai-cd -C /srv/fai/config/fai-kubernetes-master -g grub.cfg.install-only -m/tmp/mirror kubeadm.iso
 ```
